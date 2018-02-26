@@ -1,0 +1,12 @@
+use_frameworks!
+
+target 'RXLayoutGallary_Example' do
+  pod 'RXLayoutGallary', :path => '../'
+  pod 'SDWebImage', '~> 4.0'
+  pod 'SDWebImage/GIF'
+  pod 'FLAnimatedImage', '~> 1.0'
+  pod 'NYTPhotoViewer'
+
+end
+
+

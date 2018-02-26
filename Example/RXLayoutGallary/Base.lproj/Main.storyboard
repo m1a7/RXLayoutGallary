@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="whP-gf-Uak">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="wQg-tq-qST">
+            <objects>
+                <viewController id="whP-gf-Uak" customClass="RXViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uEw-UM-LJ8"/>
+                        <viewControllerLayoutGuide type="bottom" id="Mvr-aV-6Um"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TpU-gO-2f1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Images upload by URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AeS-0D-udw">
+                                <rect key="frame" x="16" y="34" width="337" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="7S0-Nd-eQ0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qDS-gg-r1C">
+                                <rect key="frame" x="16" y="63" width="343" height="208"/>
+                                <color key="backgroundColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="208" id="xlk-fa-Vg4"/>
+                                </constraints>
+                            </view>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u4q-L3-NMF">
+                                <rect key="frame" x="16" y="330" width="343" height="317"/>
+                                <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" priority="250" constant="317" id="qZQ-vu-Pjm"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UIImages upload by local bundle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ov8-Fh-Azl">
+                                <rect key="frame" x="16" y="292" width="343" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="zEr-XQ-ydb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Ov8-Fh-Azl" firstAttribute="top" secondItem="qDS-gg-r1C" secondAttribute="bottom" constant="21" id="2v9-tf-Tid"/>
+                            <constraint firstItem="u4q-L3-NMF" firstAttribute="top" secondItem="Ov8-Fh-Azl" secondAttribute="bottom" constant="17" id="374-ir-fPo"/>
+                            <constraint firstItem="AeS-0D-udw" firstAttribute="top" secondItem="uEw-UM-LJ8" secondAttribute="bottom" constant="14" id="5h7-s9-v5P"/>
+                            <constraint firstAttribute="trailing" secondItem="u4q-L3-NMF" secondAttribute="trailing" constant="16" id="AZ9-FU-IU7"/>
+                            <constraint firstItem="Mvr-aV-6Um" firstAttribute="top" secondItem="u4q-L3-NMF" secondAttribute="bottom" constant="20" id="CsA-qa-hhN"/>
+                            <constraint firstAttribute="trailing" secondItem="AeS-0D-udw" secondAttribute="trailing" constant="22" id="KFU-SX-tNu"/>
+                            <constraint firstAttribute="trailing" secondItem="Ov8-Fh-Azl" secondAttribute="trailing" constant="16" id="Nzo-Vd-cDQ"/>
+                            <constraint firstAttribute="trailing" secondItem="qDS-gg-r1C" secondAttribute="trailing" constant="16" id="dFJ-lo-1aR"/>
+                            <constraint firstItem="u4q-L3-NMF" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leading" constant="16" id="gG3-1X-Gbr"/>
+                            <constraint firstItem="qDS-gg-r1C" firstAttribute="top" secondItem="AeS-0D-udw" secondAttribute="bottom" constant="8" id="jZx-Wa-oeq"/>
+                            <constraint firstItem="qDS-gg-r1C" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leading" constant="16" id="ngO-1j-g1v"/>
+                            <constraint firstItem="AeS-0D-udw" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leading" constant="16" id="r1f-L5-55b"/>
+                            <constraint firstItem="Ov8-Fh-Azl" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leading" constant="16" id="wrk-a8-3U3"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="viewForLocalGallary" destination="u4q-L3-NMF" id="MIL-au-dzg"/>
+                        <outlet property="viewForURLGallary" destination="qDS-gg-r1C" id="BgB-mq-baJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tc2-Qw-aMS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="304.80000000000001" y="432.23388305847078"/>
+        </scene>
+    </scenes>
+</document>

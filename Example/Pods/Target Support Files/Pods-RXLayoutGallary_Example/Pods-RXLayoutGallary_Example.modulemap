@@ -1,0 +1,6 @@
+framework module Pods_RXLayoutGallary_Example {
+  umbrella header "Pods-RXLayoutGallary_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}
