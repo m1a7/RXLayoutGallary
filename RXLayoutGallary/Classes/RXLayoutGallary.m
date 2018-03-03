@@ -172,7 +172,9 @@
                 
                 imgView = [[FLAnimatedImageView alloc] initWithImage:placeHolder]; // Попробывать sd_image
                 [bself loadAnimatedImageWithURL:[NSURL URLWithString:url] completion:^(FLAnimatedImage *animatedImage) {
-                    [imgView setAnimatedImage:animatedImage];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                           [imgView setAnimatedImage:animatedImage];
+                    });
                 }];
             } else {
                 imgView = [bself createUIImageViewByRect:rect andImg:nil];
@@ -186,7 +188,9 @@
             
             FLAnimatedImage *animatedImage1 = [FLAnimatedImage animatedImageWithGIFData:data];
             imgView = [[FLAnimatedImageView alloc] initWithFrame:rect];
-            [imgView setAnimatedImage:animatedImage1];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [imgView setAnimatedImage:animatedImage1];
+            });
         }
         
         // UIImageView
@@ -214,7 +218,9 @@
                     [bself loadAnimatedImageWithURL:[NSURL URLWithString:exImg.url] completion:^(FLAnimatedImage *animatedImage) {
                         exImg.imageData = animatedImage.data;
                         exImg.isGIF     = YES;
-                        [imgView setAnimatedImage:animatedImage];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [imgView setAnimatedImage:animatedImage];
+                        });
                     }];
                 } else {
                     imgView = [bself createUIImageViewByRect:rect andImg:nil];
@@ -226,7 +232,9 @@
             {
                 FLAnimatedImage *animatedImage1 = [FLAnimatedImage animatedImageWithGIFData:exImg.imageData];
                 imgView = [[FLAnimatedImageView alloc] initWithFrame:rect];
-                [imgView setAnimatedImage:animatedImage1];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [imgView setAnimatedImage:animatedImage1];
+                });
             }
             
             if (exImg.imageData && !exImg.isGIF)
@@ -250,7 +258,9 @@
         if ([tmpObjFromMixArray isMemberOfClass:[FLAnimatedImage class]])
         {
             imgView = [[FLAnimatedImageView alloc] initWithFrame:rect];
-            [imgView setAnimatedImage:tmpObjFromMixArray];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [imgView setAnimatedImage:tmpObjFromMixArray];
+            });
         }
         
         if (imgView){
