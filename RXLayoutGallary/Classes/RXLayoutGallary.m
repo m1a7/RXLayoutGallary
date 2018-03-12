@@ -12,10 +12,12 @@
 #import <FLAnimatedImage/FLAnimatedImage.h>
 
 
+@interface RXLayoutGallary ()
+@end
+
 @implementation RXLayoutGallary
 
 #define offset 5.f
-
 #pragma mark - Designated Initializers
 
 - (instancetype)init
@@ -69,11 +71,11 @@
     }
     return self;
 }
+
 #pragma mark -  Prepare properties for use of the facility
 
-- (void) prepareGallaryProperties
-{
-    self.imagesArray = [NSMutableArray new];
+- (void) prepareGallaryProperties {
+    self.imagesArray       = [NSMutableArray new];
     self.sourceImagesArray = [NSMutableArray new];
 }
 
@@ -92,40 +94,37 @@
 
 #pragma mark - Add Images to Gallary by UIImage array
 
-- (BOOL) addUIImagesToGallary:(NSArray<UIImage*>*) arr
-{
+- (BOOL) addUIImagesToGallary:(NSArray<UIImage*>*) arr {
     [self addImagesFromMixArray:arr];
     return YES;
 }
 
 #pragma mark - Add Images to Gallary by UIImageView array
 
-- (BOOL) addUIImageViewsToGallary:(NSArray<UIImageView*>*) arr
-{
+- (BOOL) addUIImageViewsToGallary:(NSArray<UIImageView*>*) arr {
     [self addImagesFromMixArray:arr];
     return YES;
 }
 
 #pragma mark - Add Images to Gallary by URL array
 
-- (BOOL) addImageFromURL:(NSArray<NSString*>*) urls
-{
+- (BOOL) addImageFromURL:(NSArray<NSString*>*) urls {
     [self addImagesFromMixArray:urls];
     return YES;
 }
 
 
-- (BOOL) addRXExtendedImages:(NSArray<RXExtendedImage*>*) arr
-{
+- (BOOL) addRXExtendedImages:(NSArray<RXExtendedImage*>*) arr {
     [self addImagesFromMixArray:arr];
     return YES;
 }
+
 
 - (BOOL) addImagesFromMixArray:(NSArray*) mixArray
 {
     __weak RXLayoutGallary* bself = self;
     
-    NSArray* arrayWithCGRects = [self getArrWithRectsByCountImages: mixArray.count];
+    NSArray* arrayWithCGRects = [bself getArrWithRectsByCountImages: mixArray.count];
     
     [arrayWithCGRects enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
@@ -133,7 +132,7 @@
         CGRect rect = [val CGRectValue];
         
         UIImage* placeHolder = [UIImage imageNamed:@"placeholder"];
-        id imgView;
+        __block id imgView;
         
         // NSData
         // UIImage
@@ -170,10 +169,10 @@
             
             if ([url rangeOfString:@".gif"].location != NSNotFound) {
                 
-                imgView = [[FLAnimatedImageView alloc] initWithImage:placeHolder]; // Попробывать sd_image
+                imgView = [[FLAnimatedImageView alloc] initWithImage:placeHolder];
                 [bself loadAnimatedImageWithURL:[NSURL URLWithString:url] completion:^(FLAnimatedImage *animatedImage) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                           [imgView setAnimatedImage:animatedImage];
+                        [imgView setAnimatedImage:animatedImage];
                     });
                 }];
             } else {
@@ -197,13 +196,13 @@
         if ([tmpObjFromMixArray isKindOfClass:[UIImageView class]]){
             
             UIImageView* convertToImgView = (UIImageView*)tmpObjFromMixArray;
-            imgView = (UIImageView*)[self createUIImageViewByRect:rect andImg:convertToImgView.image];
+            imgView = (UIImageView*)[bself createUIImageViewByRect:rect andImg:convertToImgView.image];
         }
         
         // UIImage
         if ([tmpObjFromMixArray isKindOfClass:[UIImage class]]){
             UIImage* img  = (UIImage*)tmpObjFromMixArray;
-            imgView = [self createUIImageViewByRect:rect andImg:img];
+            imgView = [bself createUIImageViewByRect:rect andImg:img];
         }
         
         // RXExtendedImage
@@ -215,20 +214,22 @@
                 if ([exImg.url rangeOfString:@".gif"].location != NSNotFound) {
                     
                     imgView = [[FLAnimatedImageView alloc] initWithImage:placeHolder];
-                    [bself loadAnimatedImageWithURL:[NSURL URLWithString:exImg.url] completion:^(FLAnimatedImage *animatedImage) {
-                        exImg.imageData = animatedImage.data;
-                        exImg.isGIF     = YES;
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [imgView setAnimatedImage:animatedImage];
-                        });
-                    }];
+                    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+                    dispatch_async(queue, ^{
+                        
+                        [bself loadAnimatedImageWithURL:[NSURL URLWithString:exImg.url] completion:^(FLAnimatedImage *animatedImage) {
+                            exImg.imageData = animatedImage.data;
+                            exImg.isGIF     = YES;
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [imgView setAnimatedImage:animatedImage];
+                            });
+                        }];
+                    });
                 } else {
                     imgView = [bself createUIImageViewByRect:rect andImg:nil];
                     [imgView sd_setImageWithURL:[NSURL URLWithString:exImg.url] placeholderImage:placeHolder];
                 }
-            }
-            
-            if (exImg.imageData && exImg.isGIF)
+            }else if (exImg.imageData && exImg.isGIF)
             {
                 FLAnimatedImage *animatedImage1 = [FLAnimatedImage animatedImageWithGIFData:exImg.imageData];
                 imgView = [[FLAnimatedImageView alloc] initWithFrame:rect];
@@ -236,7 +237,6 @@
                     [imgView setAnimatedImage:animatedImage1];
                 });
             }
-            
             if (exImg.imageData && !exImg.isGIF)
             {
                 imgView = [bself createUIImageViewByRect:rect andImg:[UIImage imageWithData:exImg.imageData]];
@@ -270,6 +270,7 @@
             [bself setupUIImageView:imgView];
             [bself addSubview:imgView];
         }
+        
     }];
     return YES;
 }
@@ -284,7 +285,6 @@
             [self.sourceImagesArray removeObjectAtIndex:index];
             [convertView removeFromSuperview];
             [self.imagesArray removeObjectAtIndex:index];
-            
         }
     }
 }
@@ -503,45 +503,58 @@
 - (void)loadAnimatedImageWithURL:(NSURL*)url completion:(void (^)(FLAnimatedImage *animatedImage))completion
 {
     __weak RXLayoutGallary* bself = self;
-    dispatch_queue_t q = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
-    dispatch_async(q, ^{
+    
+    NSBlockOperation *downloadOperation = [NSBlockOperation new];
+    [downloadOperation addExecutionBlock:^{
         
+        NSData *imgFromCache;
         if ([bself.delegate respondsToSelector:@selector(getDataFromCacheByURL:)]) {
-            NSData *data = [self.delegate getDataFromCacheByURL:url.absoluteString];
-            if (data) {
-                FLAnimatedImage*  animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data];
-                completion(animatedImage);
+            imgFromCache = [bself.delegate getDataFromCacheByURL:url.absoluteString];
+        }
+        if (imgFromCache) {
+            FLAnimatedImage*  animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:imgFromCache];
+            completion(animatedImage);
+        }
+        else {
+            NSURLSessionDownloadTask *downloadPhotoTask = [[NSURLSession sharedSession]
+                                                           downloadTaskWithURL:url completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+                                                               
+                                                               NSData* data=  [NSData dataWithContentsOfURL:url];
+                                                               if (data) {
+                                                                   if ([bself.delegate respondsToSelector:@selector(writeToCacheData:urlKey:)]) {
+                                                                       [bself.delegate writeToCacheData:data urlKey:url.absoluteString];
+                                                                   }
+                                                               }
+                                                               FLAnimatedImage* animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data];
+                                                               completion(animatedImage);
+                                                           }];
+            [downloadPhotoTask resume];
+            if ([bself.delegate respondsToSelector:@selector(addURLSessionDownTaskToArray:)]){
+                [bself.delegate addURLSessionDownTaskToArray:downloadPhotoTask];
             }
         }
-        
-        // Option for tableView optimization work
-        if ([bself.delegate respondsToSelector:@selector(getOperationQueue)])
-        {
-            // Solution with help NSOperationQueue
-            [[bself.delegate getOperationQueue] addOperationWithBlock:^{
-                NSData *animatedImageData = [NSData dataWithContentsOfURL:url];
-                if (animatedImageData) {
-                    if ([bself.delegate respondsToSelector:@selector(writeToCacheData:urlKey:)]) {
-                        // update cache
-                        [bself.delegate writeToCacheData:animatedImageData urlKey:url.absoluteString];
-                    }
-                    FLAnimatedImage* animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:animatedImageData];
-                    // now update UI in main queue
-                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                        completion(animatedImage);
-                    }];
-                }
-            }];
-        } else {
-            // Solution without delegate and NSOperationQueue
-            NSData *data = [NSData dataWithContentsOfURL:url];
-            FLAnimatedImage* animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completion(animatedImage);
-            });
-        }
-    });
+    }];
+    
+    [downloadOperation main];
+    NSOperationQueue *downloadingQueue;
+    
+    if ([bself.delegate respondsToSelector:@selector(getOperationQueue)])
+        downloadingQueue = [bself.delegate getOperationQueue];
+    else
+        downloadingQueue = [NSOperationQueue mainQueue];
+    
+    [downloadingQueue addOperation:downloadOperation];
 }
+
+- (void) dealloc {
+    for (NSURLSessionDownloadTask* task in [self.delegate arrayURLSessionTask]){
+        [task suspend];
+        [task cancel];
+    }
+    [self.delegate cancelAllRequest];
+    [self removeAllImageFromGallary];
+}
+
 
 @end
 

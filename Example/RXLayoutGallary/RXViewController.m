@@ -56,7 +56,8 @@
     ex1.title   = @"Cat";
     ex1.summary = @"Bro";
     ex1.credit  = @"Fist pound";
-
+    
+    
     RXExtendedImage* ex2 = [[RXExtendedImage alloc] initWithURL:@"https://pp.userapi.com/c841233/v841233896/58028/UVgZp5SAuT0.jpg" andIsGIF:NO];
     ex2.title = @"It is fucking swift !";
 

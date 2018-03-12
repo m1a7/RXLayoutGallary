@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'RXLayoutGallary'
-  s.version          = '1.1.1'
+  s.version          = '1.1.2'
   s.summary          = 'With help RXLayoutGallary add photos to grid.'
 
 # This description is used to generate tags and improve search results.

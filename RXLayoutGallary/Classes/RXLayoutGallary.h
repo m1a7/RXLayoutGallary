@@ -13,14 +13,21 @@
 @protocol RXLayoutGallaryDelegate <NSObject>
 
 @optional
+
 - (void)rxgallaryView:(RXLayoutGallary *)rxlayoutGallary didTapAtImageView:(UIImageView *)imageView sourceObject:(id) sourceImage atIndex:(NSUInteger)index;
 
 /*
  Need for optimization download image to gallary from tableView
  */
--(NSData*) getDataFromCacheByURL:(NSString*) urlStr;
--(void) writeToCacheData:(NSData*) data urlKey:(NSString*) key;
--(NSOperationQueue*) getOperationQueue;
+
+- (void)     addURLSessionDownTaskToArray:(NSURLSessionDownloadTask*) downloadTask;
+- (NSArray*) arrayURLSessionTask;
+- (void)     cancelAllRequest;
+
+
+- (NSData*) getDataFromCacheByURL:(NSString*) urlStr;
+- (void)    writeToCacheData:(NSData*) data urlKey:(NSString*) key;
+- (NSOperationQueue*) getOperationQueue;
 
 @end
 
